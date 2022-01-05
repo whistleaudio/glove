@@ -28,3 +28,4 @@ The simple traditional option is to install the Arduino 1.0 IDE (`brew install a
 - `arduino-cli lib install BLE-MIDI` depends on:
     - `arduino-cli lib install "MIDI Library"`
     - `arduino-cli lib install ArduinoBLE`
+- `arduino-cli lib install Arduino_APDS9960` proximity/gesture sensor

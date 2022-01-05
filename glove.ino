@@ -1,41 +1,41 @@
+#include <Arduino_APDS9960.h>
 #include <BLEMIDI_Transport.h>
 #include <hardware/BLEMIDI_ArduinoBLE.h>
 
 BLEMIDI_CREATE_INSTANCE("Glove", MIDI)
 
 unsigned long t0 = millis();
-bool isConnected = false;
+bool isBluetoothConnected = false;
 
 void setup() {
   MIDI.begin();
+  int proximityInitialized = APDS.begin();
 
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW);
 
   BLEMIDI.setHandleConnected([]() {
-    isConnected = true;
+    isBluetoothConnected = true;
     digitalWrite(LED_BUILTIN, HIGH);
   });
 
   BLEMIDI.setHandleDisconnected([]() {
-    isConnected = false;
+    isBluetoothConnected = false;
     digitalWrite(LED_BUILTIN, LOW);
-  });
-
-  MIDI.setHandleNoteOn([](byte channel, byte note, byte velocity) {
-    digitalWrite(LED_BUILTIN, LOW);
-  });
-  MIDI.setHandleNoteOff([](byte channel, byte note, byte velocity) {
-    digitalWrite(LED_BUILTIN, HIGH);
   });
 }
 
 void loop() {
+  const int SENSOR_INTERVAL = 1000;
   MIDI.read();
 
-  if (isConnected && (millis() - t0) > 1000) {
+  if (isBluetoothConnected && APDS.proximityAvailable() &&
+      (millis() - t0) > SENSOR_INTERVAL) {
     t0 = millis();
 
-    MIDI.sendNoteOn(60, 100, 1);
+    // `proximity` ranges from 0 (closest) to 255 (farthest)
+    int proximity = APDS.readProximity();
+
+    MIDI.sendControlChange(1, proximity / 2, 1);
   }
 }

@@ -26,7 +26,7 @@ void setup() {
 }
 
 void loop() {
-  const int SENSOR_INTERVAL = 1000;
+  const int SENSOR_INTERVAL = 50;
   MIDI.read();
 
   if (isBluetoothConnected && APDS.proximityAvailable() &&
@@ -36,6 +36,6 @@ void loop() {
     // `proximity` ranges from 0 (closest) to 255 (farthest)
     int proximity = APDS.readProximity();
 
-    MIDI.sendControlChange(1, proximity / 2, 1);
+    MIDI.sendControlChange(32, proximity / 2, 1);
   }
 }

@@ -1,5 +1,9 @@
 # Glove
 
+## Hardware
+
+This project was developed with the Arduino Nano 33 BLE Sense. See https://docs.arduino.cc/hardware/nano-33-ble-sense.
+
 ## Development environment
 
 The simple traditional option is to install the Arduino 1.0 IDE (`brew install arduino`) or the new [2.0 RC IDE](https://www.arduino.cc/en/software#experimental-software). However, the IDE is no longer required and development can be done entirely with VS Code and the Arduino CLI:
@@ -25,7 +29,7 @@ The simple traditional option is to install the Arduino 1.0 IDE (`brew install a
 
 ## Libraries
 
-- `arduino-cli lib install BLE-MIDI` depends on:
-    - `arduino-cli lib install "MIDI Library"`
-    - `arduino-cli lib install ArduinoBLE`
-- `arduino-cli lib install Arduino_APDS9960` proximity/gesture sensor
+- BLE MIDI: `arduino-cli lib install BLE-MIDI` depends on:
+    - BLE: `arduino-cli lib install ArduinoBLE`
+    - MIDI: `arduino-cli lib install "MIDI Library"`
+- Proximity/gesture sensor: `arduino-cli lib install Arduino_APDS9960`
